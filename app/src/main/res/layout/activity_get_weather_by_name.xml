@@ -6,4 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".ui.GetByName.GetWeatherByNameActivity">
 
+
+    <EditText
+        android:id="@+id/Weather_By_Name_Value_EditText"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/Weather_By_Name_Search_Button"
+        android:background="@drawable/edit_text_border"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:hint="Enter cities name split by comma"
+        android:paddingStart="10dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/black_de_transparent"
+        />
+
+    <ImageView
+        android:id="@+id/Weather_By_Name_Search_Button"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/Weather_By_Name_Value_EditText"
+        app:layout_constraintBottom_toBottomOf="@id/Weather_By_Name_Value_EditText"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_baseline_search_24"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Weather_By_Name_RecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/Weather_By_Name_Value_EditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20dp"
+        />
+
+    <ProgressBar
+        android:id="@+id/Weather_By_Name_Loading_ProgressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

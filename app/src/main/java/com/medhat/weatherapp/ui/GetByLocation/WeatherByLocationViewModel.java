@@ -1,12 +1,9 @@
 package com.medhat.weatherapp.ui.GetByLocation;
 
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.medhat.weatherapp.data.Model.LocationWeatherModels.Weather;
 import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherByLocationResponse;
 import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherInfo;
 import com.medhat.weatherapp.data.Repositories.GetByLocationRepo;
@@ -15,14 +12,13 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import retrofit2.Response;
-
 public class WeatherByLocationViewModel extends ViewModel {
 
     private GetByLocationRepo getByLocationRepo;
 
     private MutableLiveData<ArrayList<WeatherInfo>> weatherData = new MutableLiveData<>();
     private MutableLiveData<WeatherByLocationResponse> weatherResponse = new MutableLiveData<>();
+    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     @Inject
     public WeatherByLocationViewModel(GetByLocationRepo getByLocationRepo) {
@@ -30,11 +26,7 @@ public class WeatherByLocationViewModel extends ViewModel {
     }
 
     public void getWeatherByLocation(double longitude, double latitude){
-        Log.v("nnnnnnnnnnnnnn","done with lenght view model");
-        getByLocationRepo.getWeatherByLocation(longitude,latitude);
-        weatherResponse = getByLocationRepo.getWeatherLiveData();
-        Log.v("nnnnnnnnnnnnnn","done with lenght view model");
-
+        getByLocationRepo.getWeatherByLocation(longitude,latitude, weatherResponse,errorMessage);
     }
 
     public void get5DaysWeather(WeatherByLocationResponse model){
@@ -58,5 +50,9 @@ public class WeatherByLocationViewModel extends ViewModel {
 
     public MutableLiveData<WeatherByLocationResponse> getWeatherResponse() {
         return weatherResponse;
+    }
+
+    public MutableLiveData<String> getErrorMessage() {
+        return errorMessage;
     }
 }

@@ -7,6 +7,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherByLocationResponse;
 import com.medhat.weatherapp.data.api.GetByLocation.GetByLocationHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import javax.inject.Inject;
@@ -19,14 +22,14 @@ public class GetByLocationRepo {
 
     private GetByLocationHelper locationHelper;
 
-    MutableLiveData<WeatherByLocationResponse> weatherLiveData = new MutableLiveData<>();
-
     @Inject
     public GetByLocationRepo(GetByLocationHelper locationHelper) {
         this.locationHelper = locationHelper;
     }
 
-    public MutableLiveData<WeatherByLocationResponse> getWeatherByLocation(double longitude, double latitude){
+    public void getWeatherByLocation(double longitude, double latitude,
+                                     MutableLiveData<WeatherByLocationResponse> weatherLiveData,
+                                     MutableLiveData<String> errorMessage){
         locationHelper.getWeather(longitude, latitude, new Callback<WeatherByLocationResponse>() {
             @Override
             public void onResponse(Call<WeatherByLocationResponse> call, Response<WeatherByLocationResponse> response) {
@@ -34,11 +37,12 @@ public class GetByLocationRepo {
                     weatherLiveData.setValue(response.body());
                 }else{
                     try {
-                        Log.v("nnnnnnnnnnnnnn","noo done in repo"+response.errorBody().string());
-                    } catch (IOException e) {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String error = jObjError.getJSONObject("error").getString("message");
+                        errorMessage.setValue(error);
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
 
@@ -47,12 +51,7 @@ public class GetByLocationRepo {
 
             }
         });
-
-        return weatherLiveData;
     }
 
 
-    public MutableLiveData<WeatherByLocationResponse> getWeatherLiveData() {
-        return weatherLiveData;
-    }
 }

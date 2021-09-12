@@ -15,6 +15,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.medhat.weatherapp.R;
@@ -37,15 +39,18 @@ public class GetWeatherByLocationActivity extends AppCompatActivity implements L
     private double longitude, latitude;
 
     private RecyclerView weatherRecyclerView;
+    private ProgressBar loadingProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_weather_by_location);
 
+        loadingProgress     = findViewById(R.id.Weather_By_Location_ProgressBar);
         weatherRecyclerView = findViewById(R.id.Weather_By_Location_RecyclerView);
         weatherRecyclerView.setHasFixedSize(true);
         weatherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        loadingProgress.setVisibility(View.VISIBLE);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -58,14 +63,17 @@ public class GetWeatherByLocationActivity extends AppCompatActivity implements L
 
 
         viewModel.getWeatherResponse().observe(this, weatherByLocationResponse -> {
-            Log.v("nnnnnnnnnnnnnn","done with lenght" +weatherByLocationResponse.getList().size());
             viewModel.get5DaysWeather(weatherByLocationResponse);
-            Log.v("nnnnnnnnnnnnnn","done with lenght" +weatherByLocationResponse.getList().size());
         });
 
         viewModel.getWeatherData().observe(this, weatherInfo -> {
-            Log.v("nnnnnnnnnnnnnn","done with lenght" +weatherInfo.size());
             weatherRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(weatherInfo));
+            loadingProgress.setVisibility(View.GONE);
+        });
+
+        viewModel.getErrorMessage().observe(this, message ->{
+            Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+            loadingProgress.setVisibility(View.GONE);
         });
     }
 

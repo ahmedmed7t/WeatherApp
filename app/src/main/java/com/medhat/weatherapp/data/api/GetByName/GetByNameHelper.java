@@ -1,6 +1,10 @@
 package com.medhat.weatherapp.data.api.GetByName;
 
 
+import com.medhat.weatherapp.data.Model.NameWeatherModels.WeatherByNameResponse;
+
+import retrofit2.Callback;
+
 public interface GetByNameHelper {
-    String getByName(String name);
+    void getWeather(String cityName,  Callback<WeatherByNameResponse> callback);
 }

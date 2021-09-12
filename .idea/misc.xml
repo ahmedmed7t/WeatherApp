@@ -6,6 +6,9 @@
         <entry key="..\:/Android Studio Projects/WeatherApp/app/src/main/res/layout/activity_get_weather_by_location.xml" value="0.18645833333333334" />
         <entry key="..\:/Android Studio Projects/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.13385416666666666" />
         <entry key="..\:/Android Studio Projects/WeatherApp/app/src/main/res/layout/weather_by_location_item.xml" value="0.25" />
+        <entry key="..\:/New folder/WeatherApp/app/src/main/res/drawable/edit_text_border.xml" value="0.2546875" />
+        <entry key="..\:/New folder/WeatherApp/app/src/main/res/layout/activity_get_weather_by_location.xml" value="0.1171875" />
+        <entry key="..\:/New folder/WeatherApp/app/src/main/res/layout/activity_get_weather_by_name.xml" value="0.23854166666666668" />
       </map>
     </option>
   </component>
