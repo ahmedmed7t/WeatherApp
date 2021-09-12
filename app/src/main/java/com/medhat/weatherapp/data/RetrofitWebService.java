@@ -9,6 +9,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitWebService {
     private static final String TAG = RetrofitWebService.class.getSimpleName();
     private static final Map<String, RetrofitService> mServices = new HashMap<>();
-    private static final String url = "api.openweathermap.org/data/2.5/";
+    private static final String url = "https://api.openweathermap.org";
     private final String api_key = "72067ca3a1b1091a10db6a82ddd6b8a0";
 
     private RetrofitWebService() {
@@ -29,6 +30,7 @@ public class RetrofitWebService {
             request = request.newBuilder().url(url).build();
             return chain.proceed(request);
         };
+
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .writeTimeout(10, TimeUnit.MINUTES)
