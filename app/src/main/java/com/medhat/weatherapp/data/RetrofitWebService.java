@@ -21,9 +21,6 @@ public class RetrofitWebService {
     private final String api_key = "72067ca3a1b1091a10db6a82ddd6b8a0";
 
     private RetrofitWebService() {
-//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         Interceptor interceptor1 = chain -> {
             Request request = chain.request();
             HttpUrl url = request.url().newBuilder().addQueryParameter("appid",api_key).build();
@@ -51,6 +48,4 @@ public class RetrofitWebService {
         }
         return mServices.get(url);
     }
-
-
 }

@@ -14,9 +14,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.medhat.weatherapp.R;
+import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherInfo;
+import com.medhat.weatherapp.data.Model.NameWeatherModels.WeatherByNameResponse;
 import com.medhat.weatherapp.module.DaggerGetViewModelComponent;
 import com.medhat.weatherapp.module.GetByNameModule;
 import com.medhat.weatherapp.module.GetViewModelComponent;
+import com.medhat.weatherapp.ui.GetByLocation.LocationWeatherRecyclerAdapter;
+
+import java.util.ArrayList;
 
 public class GetWeatherByNameActivity extends AppCompatActivity {
 
@@ -37,13 +42,22 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
 
         searchButton.setOnClickListener( v ->{
             loading.setVisibility(View.VISIBLE);
-            nameViewModel.validateSearchValue(citiesNameValue.getText().toString());
+            nameViewModel.validateSearchValue(citiesNameValue.getText().toString(),this);
+            weatherRecycler.setAdapter(new LocationWeatherRecyclerAdapter(new ArrayList<>()));
         });
 
         nameViewModel.getErrorMessage().observe(this, s -> {
-            loading.setVisibility(View.GONE);
             Toast.makeText(GetWeatherByNameActivity.this,s , Toast.LENGTH_LONG).show();
         });
+
+        nameViewModel.getLiveResponse().observe(this, weatherByNameResponses -> {
+            loading.setVisibility(View.GONE);
+            weatherRecycler.setAdapter(new LocationWeatherRecyclerAdapter(weatherByNameResponses));
+        });
+
+        nameViewModel.getResponseCount().observe(this, integer -> nameViewModel.validateResponse());
+
+
     }
 
     public void initViews(){

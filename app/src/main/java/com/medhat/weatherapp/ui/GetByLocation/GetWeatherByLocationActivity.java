@@ -24,10 +24,12 @@ import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherByLocationR
 import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherInfo;
 import com.medhat.weatherapp.module.DaggerGetViewModelComponent;
 import com.medhat.weatherapp.module.GetViewModelComponent;
+import com.medhat.weatherapp.ui.MainActivity;
 
+import java.security.Permissions;
 import java.util.ArrayList;
 
-public class GetWeatherByLocationActivity extends AppCompatActivity implements LocationListener{
+public class GetWeatherByLocationActivity extends AppCompatActivity implements LocationListener {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -45,22 +47,7 @@ public class GetWeatherByLocationActivity extends AppCompatActivity implements L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_weather_by_location);
-
-        loadingProgress     = findViewById(R.id.Weather_By_Location_ProgressBar);
-        weatherRecyclerView = findViewById(R.id.Weather_By_Location_RecyclerView);
-        weatherRecyclerView.setHasFixedSize(true);
-        weatherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        loadingProgress.setVisibility(View.VISIBLE);
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_LOCATION);
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
-
+        initViews();
 
         viewModel.getWeatherResponse().observe(this, weatherByLocationResponse -> {
             viewModel.get5DaysWeather(weatherByLocationResponse);
@@ -71,10 +58,29 @@ public class GetWeatherByLocationActivity extends AppCompatActivity implements L
             loadingProgress.setVisibility(View.GONE);
         });
 
-        viewModel.getErrorMessage().observe(this, message ->{
-            Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+        viewModel.getErrorMessage().observe(this, message -> {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             loadingProgress.setVisibility(View.GONE);
         });
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_LOCATION);
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, GetWeatherByLocationActivity.this);
+        }
+
     }
 
     @Override
@@ -85,5 +91,13 @@ public class GetWeatherByLocationActivity extends AppCompatActivity implements L
 
             viewModel.getWeatherByLocation(longitude,latitude);
         }
+    }
+
+    public void initViews(){
+        loadingProgress     = findViewById(R.id.Weather_By_Location_ProgressBar);
+        weatherRecyclerView = findViewById(R.id.Weather_By_Location_RecyclerView);
+        weatherRecyclerView.setHasFixedSize(true);
+        weatherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        loadingProgress.setVisibility(View.VISIBLE);
     }
 }

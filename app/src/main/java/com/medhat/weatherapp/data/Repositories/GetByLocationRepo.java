@@ -1,10 +1,10 @@
 package com.medhat.weatherapp.data.Repositories;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
 import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherByLocationResponse;
+import com.medhat.weatherapp.data.Model.ErrorResponse;
 import com.medhat.weatherapp.data.api.GetByLocation.GetByLocationHelper;
 
 import org.json.JSONException;
@@ -38,8 +38,8 @@ public class GetByLocationRepo {
                 }else{
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        String error = jObjError.getJSONObject("error").getString("message");
-                        errorMessage.setValue(error);
+                        ErrorResponse errorResponse = new Gson().fromJson(String.valueOf(jObjError),ErrorResponse.class);
+                        errorMessage.setValue(errorResponse.getMessage());
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
@@ -48,10 +48,7 @@ public class GetByLocationRepo {
 
             @Override
             public void onFailure(Call<WeatherByLocationResponse> call, Throwable t) {
-
             }
         });
     }
-
-
 }

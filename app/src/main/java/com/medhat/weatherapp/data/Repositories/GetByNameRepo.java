@@ -2,6 +2,8 @@ package com.medhat.weatherapp.data.Repositories;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
+import com.medhat.weatherapp.data.Model.ErrorResponse;
 import com.medhat.weatherapp.data.Model.NameWeatherModels.WeatherByNameResponse;
 import com.medhat.weatherapp.data.api.GetByName.GetByNameHelper;
 
@@ -20,6 +22,7 @@ import retrofit2.Response;
 public class GetByNameRepo {
 
     private GetByNameHelper getByNameHelper;
+    private ArrayList<WeatherByNameResponse> weatherResponse = new ArrayList<>();
 
     @Inject
     public GetByNameRepo(GetByNameHelper getByNameHelper) {
@@ -27,28 +30,32 @@ public class GetByNameRepo {
     }
 
     public void getWeatherByName(String name, MutableLiveData<String> errorMessage,
-                                 MutableLiveData<ArrayList<WeatherByNameResponse>> weatherResponse){
+                                  MutableLiveData<Integer> count){
         getByNameHelper.getWeather(name, new Callback<WeatherByNameResponse>() {
             @Override
             public void onResponse(Call<WeatherByNameResponse> call, Response<WeatherByNameResponse> response) {
                 if(response.isSuccessful()){
-                    weatherResponse.getValue().add(response.body());
-                    weatherResponse.setValue(weatherResponse.getValue());
+                    weatherResponse.add(response.body());
                 }else{
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        String error = jObjError.getJSONObject("error").getString("message");
-                        errorMessage.setValue(error);
+                        ErrorResponse errorResponse = new Gson().fromJson(String.valueOf(jObjError), ErrorResponse.class);
+                        errorMessage.setValue(name + " " + errorResponse.getMessage());
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
                 }
+                count.setValue(count.getValue()+1);
             }
 
             @Override
             public void onFailure(Call<WeatherByNameResponse> call, Throwable t) {
-
+                count.setValue(count.getValue()+1);
             }
         });
+    }
+
+    public ArrayList<WeatherByNameResponse> getWeatherResponse() {
+        return weatherResponse;
     }
 }
