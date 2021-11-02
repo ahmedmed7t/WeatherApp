@@ -1,6 +1,6 @@
 # WeatherApp
 
-## App to get the weather according to your location or by city name 
+### App to get the weather according to your location or by city name 
 
 My application is consisit of three screens 
 - First screen is a landing screen that navigate to other screens.
