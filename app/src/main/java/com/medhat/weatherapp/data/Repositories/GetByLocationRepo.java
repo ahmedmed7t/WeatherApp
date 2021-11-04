@@ -1,21 +1,12 @@
 package com.medhat.weatherapp.data.Repositories;
 
-import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
 import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherByLocationResponse;
-import com.medhat.weatherapp.data.Model.ErrorResponse;
 import com.medhat.weatherapp.data.api.GetByLocation.GetByLocationHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+import io.reactivex.Single;
 import retrofit2.Response;
 
 public class GetByLocationRepo {
@@ -27,28 +18,7 @@ public class GetByLocationRepo {
         this.locationHelper = locationHelper;
     }
 
-    public void getWeatherByLocation(double longitude, double latitude,
-                                     MutableLiveData<WeatherByLocationResponse> weatherLiveData,
-                                     MutableLiveData<String> errorMessage){
-        locationHelper.getWeather(longitude, latitude, new Callback<WeatherByLocationResponse>() {
-            @Override
-            public void onResponse(Call<WeatherByLocationResponse> call, Response<WeatherByLocationResponse> response) {
-                if(response.isSuccessful()){
-                    weatherLiveData.setValue(response.body());
-                }else{
-                    try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        ErrorResponse errorResponse = new Gson().fromJson(String.valueOf(jObjError),ErrorResponse.class);
-                        errorMessage.setValue(errorResponse.getMessage());
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<WeatherByLocationResponse> call, Throwable t) {
-            }
-        });
+    public Single<Response<WeatherByLocationResponse>> getWeatherByLocation(double longitude, double latitude){
+        return locationHelper.getWeather(longitude,latitude);
     }
 }

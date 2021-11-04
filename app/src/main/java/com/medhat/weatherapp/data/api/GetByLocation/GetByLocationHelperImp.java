@@ -1,14 +1,12 @@
 package com.medhat.weatherapp.data.api.GetByLocation;
 
-import android.util.Log;
 
 import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherByLocationResponse;
 import com.medhat.weatherapp.data.RetrofitWebService;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+import io.reactivex.Single;
 import retrofit2.Response;
 
 public class GetByLocationHelperImp implements GetByLocationHelper{
@@ -20,8 +18,7 @@ public class GetByLocationHelperImp implements GetByLocationHelper{
 
 
     @Override
-    public void getWeather(double longitude, double latitude,
-                           Callback<WeatherByLocationResponse> callback ) {
-        RetrofitWebService.getService().getWeatherByLocation(longitude,latitude).enqueue(callback);
+    public Single<Response<WeatherByLocationResponse>> getWeather(double longitude, double latitude) {
+       return RetrofitWebService.getService().getWeatherByLocation(longitude,latitude);
     }
 }

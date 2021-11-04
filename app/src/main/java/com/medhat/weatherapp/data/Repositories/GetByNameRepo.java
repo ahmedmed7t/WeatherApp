@@ -1,5 +1,7 @@
 package com.medhat.weatherapp.data.Repositories;
 
+import android.annotation.SuppressLint;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
@@ -15,6 +17,11 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import io.reactivex.Scheduler;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,30 +36,9 @@ public class GetByNameRepo {
         this.getByNameHelper = getByNameHelper;
     }
 
-    public void getWeatherByName(String name, MutableLiveData<String> errorMessage,
-                                  MutableLiveData<Integer> count){
-        getByNameHelper.getWeather(name, new Callback<WeatherByNameResponse>() {
-            @Override
-            public void onResponse(Call<WeatherByNameResponse> call, Response<WeatherByNameResponse> response) {
-                if(response.isSuccessful()){
-                    weatherResponse.add(response.body());
-                }else{
-                    try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        ErrorResponse errorResponse = new Gson().fromJson(String.valueOf(jObjError), ErrorResponse.class);
-                        errorMessage.setValue(name + " " + errorResponse.getMessage());
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                count.setValue(count.getValue()+1);
-            }
-
-            @Override
-            public void onFailure(Call<WeatherByNameResponse> call, Throwable t) {
-                count.setValue(count.getValue()+1);
-            }
-        });
+    @SuppressLint("CheckResult")
+    public Single<Response<WeatherByNameResponse>> getWeatherByName(String name){
+        return getByNameHelper.getWeather(name);
     }
 
     public ArrayList<WeatherByNameResponse> getWeatherResponse() {

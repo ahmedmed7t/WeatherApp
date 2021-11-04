@@ -39,24 +39,8 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_weather_by_name);
         initViews();
 
-
-        searchButton.setOnClickListener( v ->{
-            loading.setVisibility(View.VISIBLE);
-            nameViewModel.validateSearchValue(citiesNameValue.getText().toString(),this);
-            weatherRecycler.setAdapter(new LocationWeatherRecyclerAdapter(new ArrayList<>()));
-        });
-
-        nameViewModel.getErrorMessage().observe(this, s -> {
-            Toast.makeText(GetWeatherByNameActivity.this,s , Toast.LENGTH_LONG).show();
-        });
-
-        nameViewModel.getLiveResponse().observe(this, weatherByNameResponses -> {
-            loading.setVisibility(View.GONE);
-            weatherRecycler.setAdapter(new LocationWeatherRecyclerAdapter(weatherByNameResponses));
-        });
-
-        nameViewModel.getResponseCount().observe(this, integer -> nameViewModel.validateResponse());
-
+        listenToViewModelValues();
+        clickHandler();
 
     }
 
@@ -67,5 +51,33 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
         loading             = findViewById(R.id.Weather_By_Name_Loading_ProgressBar);
         weatherRecycler.setHasFixedSize(true);
         weatherRecycler.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    public void listenToViewModelValues(){
+        nameViewModel.getErrorMessage().observe(this, s -> {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (s instanceof String) {
+                        Toast.makeText(GetWeatherByNameActivity.this, s.toString(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(GetWeatherByNameActivity.this, getString(Integer.valueOf(s.toString())), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        });
+
+        nameViewModel.getLiveResponse().observe(this, weatherByNameResponses -> {
+            loading.setVisibility(View.GONE);
+            weatherRecycler.setAdapter(new LocationWeatherRecyclerAdapter(weatherByNameResponses));
+        });
+    }
+
+    public void clickHandler(){
+        searchButton.setOnClickListener( v ->{
+            loading.setVisibility(View.VISIBLE);
+            nameViewModel.validateSearchValue(citiesNameValue.getText().toString());
+            weatherRecycler.setAdapter(new LocationWeatherRecyclerAdapter(new ArrayList<>()));
+        });
     }
 }
