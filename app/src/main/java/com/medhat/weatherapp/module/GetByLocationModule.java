@@ -1,15 +1,22 @@
 package com.medhat.weatherapp.module;
 
-import com.medhat.weatherapp.data.api.GetByLocation.GetByLocationHelper;
-import com.medhat.weatherapp.data.api.GetByLocation.GetByLocationHelperImp;
+import com.medhat.weatherapp.data.api.getByLocation.GetByLocationHelper;
+import com.medhat.weatherapp.data.api.getByLocation.GetByLocationHelperImp;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.components.ActivityComponent;
+import dagger.hilt.android.components.ViewModelComponent;
+import dagger.hilt.android.scopes.ViewModelScoped;
 
 @Module
-public interface GetByLocationModule {
+@InstallIn(ViewModelComponent.class)
+public class GetByLocationModule {
+
     @Provides
-    static GetByLocationHelper getByLocationHelper(){
-        return new GetByLocationHelperImp();
+    public static GetByLocationHelper getByLocationHelper(){
+        return new GetByLocationHelperImp() ;
     }
 }

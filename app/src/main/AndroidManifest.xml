@@ -11,14 +11,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".app"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherApp">
         <activity
-            android:name=".ui.GetByName.GetWeatherByNameActivity"
+            android:name=".ui.getByName.GetWeatherByNameActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.GetByLocation.GetWeatherByLocationActivity"
+            android:name=".ui.getByLocation.GetWeatherByLocationActivity"
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"

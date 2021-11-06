@@ -1,10 +1,9 @@
 package com.medhat.weatherapp.data;
 
-import com.medhat.weatherapp.data.Model.LocationWeatherModels.WeatherByLocationResponse;
-import com.medhat.weatherapp.data.Model.NameWeatherModels.WeatherByNameResponse;
+import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherByLocationResponse;
+import com.medhat.weatherapp.data.models.nameWeatherModels.WeatherByNameResponse;
 
 import io.reactivex.Single;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

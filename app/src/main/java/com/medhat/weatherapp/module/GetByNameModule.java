@@ -1,16 +1,19 @@
 package com.medhat.weatherapp.module;
 
-import com.medhat.weatherapp.data.api.GetByName.GetByNameHelper;
-import com.medhat.weatherapp.data.api.GetByName.GetByNameHelperImp;
+import com.medhat.weatherapp.data.api.getByName.GetByNameHelper;
+import com.medhat.weatherapp.data.api.getByName.GetByNameHelperImp;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.components.ActivityComponent;
+import dagger.hilt.android.components.ViewModelComponent;
 
 @Module
-public interface GetByNameModule {
+@InstallIn(ViewModelComponent.class)
+public abstract class GetByNameModule {
 
-    @Provides
-    static GetByNameHelper getByNameHelper(){
-        return new GetByNameHelperImp();
-    }
+    @Binds
+    public abstract GetByNameHelper getByNameHelper(GetByNameHelperImp getByNameHelperImp);
 }

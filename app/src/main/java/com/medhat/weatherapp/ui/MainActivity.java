@@ -1,42 +1,44 @@
 package com.medhat.weatherapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.medhat.weatherapp.R;
-import com.medhat.weatherapp.ui.GetByLocation.GetWeatherByLocationActivity;
-import com.medhat.weatherapp.ui.GetByName.GetWeatherByNameActivity;
+import com.medhat.weatherapp.databinding.ActivityMainBinding;
+import com.medhat.weatherapp.ui.getByLocation.GetWeatherByLocationActivity;
+import com.medhat.weatherapp.ui.getByName.GetWeatherByNameActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CardView getByName, getByLocation;
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initViews();
 
-        handleClicks();
+        // For View Binding
+//        binding = ActivityMainBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//        binding.LandingPageGetByNameCardView.setOnClickListener(v ->{
+//
+//        });
 
+        // For Data Binding
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setActivity(this);
     }
 
-    public void initViews(){
-        getByName      = findViewById(R.id.Landing_Page_Get_By_Name_CardView);
-        getByLocation  = findViewById(R.id.Landing_Page_Get_By_Location_CardView);
+    public void gotoLocationPage(){
+        Intent intent = new Intent(MainActivity.this, GetWeatherByLocationActivity.class);
+        startActivity(intent);
     }
 
-    public void handleClicks(){
-        getByLocation.setOnClickListener(v ->{
-            Intent intent = new Intent(MainActivity.this, GetWeatherByLocationActivity.class);
-            startActivity(intent);
-        });
-
-        getByName.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, GetWeatherByNameActivity.class);
-            startActivity(intent);
-        });
+    public void gotoNamePage(){
+        Intent intent = new Intent(MainActivity.this, GetWeatherByNameActivity.class);
+        startActivity(intent);
     }
+
 }

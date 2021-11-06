@@ -1,133 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="16dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/Weather_By_Location_Date_Time_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="2021-9-12 21:00:00"
-        android:textSize="14sp"
-        android:textColor="@color/black_61_transparent"
-        android:layout_marginEnd="16dp"
-        />
+    <data>
 
-    <LinearLayout
-        android:id="@+id/Weather_By_Location_Data_Container_LinearLayout"
+        <import type="android.view.View"/>
+        <variable
+            name="item"
+            type="com.medhat.weatherapp.data.models.locationWeatherModels.WeatherInfo" />
+
+        <variable
+            name="lineVisible"
+            type="java.lang.Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/Weather_By_Location_Date_Time_TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/Weather_By_Location_Date_Time_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@{item.dateTime}"
+            android:textColor="@color/black_61_transparent"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/Weather_By_Location_Data_Container_LinearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/high_temperature"
-                />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Weather_By_Location_Date_Time_TextView">
 
-            <TextView
-                android:id="@+id/Weather_By_Location_Max_Temp_TextView"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="50.5"
-                android:ellipsize="end"
-                android:textSize="16sp"
-                android:textColor="@color/black_de_transparent"
-                android:layout_gravity="center"
-                android:layout_marginStart="6dp"/>
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/high_temperature" />
+
+                <TextView
+                    android:id="@+id/Weather_By_Location_Max_Temp_TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:text="@{String.valueOf(item.maxTemp)}"
+                    android:textColor="@color/black_de_transparent"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/low_temperature" />
+
+                <TextView
+                    android:id="@+id/Weather_By_Location_Min_Temp_TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:text="@{String.valueOf(item.minTemp)}"
+                    android:textColor="@color/black_de_transparent"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/wind" />
+
+                <TextView
+                    android:id="@+id/Weather_By_Location_Wind_Speed_TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:text="@{String.valueOf(item.windSpeed)}"
+                    android:textColor="@color/black_de_transparent"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <TextView
+            android:id="@+id/Weather_By_Location_Description_TextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/low_temperature"
-                />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{item.weatherDescription}"
+            android:textColor="@color/black_de_transparent"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Weather_By_Location_Data_Container_LinearLayout" />
 
-            <TextView
-                android:id="@+id/Weather_By_Location_Min_Temp_TextView"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="50.5"
-                android:ellipsize="end"
-                android:textSize="16sp"
-                android:textColor="@color/black_de_transparent"
-                android:layout_gravity="center"
-                android:layout_marginStart="6dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/wind"
-                />
-
-            <TextView
-                android:id="@+id/Weather_By_Location_Wind_Speed_TextView"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                tools:text="50.5"
-                android:ellipsize="end"
-                android:textSize="16sp"
-                android:textColor="@color/black_de_transparent"
-                android:layout_gravity="center"
-                android:layout_marginStart="6dp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/Weather_By_Location_Description_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/Weather_By_Location_Data_Container_LinearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textSize="16sp"
-        android:textColor="@color/black_de_transparent"
-        tools:text="Ahmed Medhat Mohamed Ahmed Medhat Mohamed Ahmed Medhat Mohamed"/>
-
-    <ImageView
-        android:id="@+id/Weather_By_Location_Divider_Line_ImageView"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/black_61_transparent"
-        app:layout_constraintTop_toBottomOf="@id/Weather_By_Location_Description_TextView"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:alpha=".2"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/Weather_By_Location_Divider_Line_ImageView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:alpha=".2"
+            android:visibility="@{lineVisible ? View.VISIBLE : View.GONE}"
+            android:src="@color/black_61_transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Weather_By_Location_Description_TextView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

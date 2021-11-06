@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.GetByLocation.GetWeatherByLocationActivity">
+    tools:context=".ui.getByLocation.GetWeatherByLocationActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Weather_By_Location_RecyclerView"
