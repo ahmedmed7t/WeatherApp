@@ -1,8 +1,8 @@
 package com.medhat.weatherapp.data.api.getByLocation;
 
 
+import com.medhat.weatherapp.data.RetrofitService;
 import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherByLocationResponse;
-import com.medhat.weatherapp.data.RetrofitWebService;
 
 import javax.inject.Inject;
 
@@ -11,12 +11,15 @@ import retrofit2.Response;
 
 public class GetByLocationHelperImp implements GetByLocationHelper{
 
+    RetrofitService retrofitService;
+
     @Inject
-    public GetByLocationHelperImp() {
+    public GetByLocationHelperImp(RetrofitService retrofitService) {
+        this.retrofitService = retrofitService;
     }
 
     @Override
     public Single<Response<WeatherByLocationResponse>> getWeather(double longitude, double latitude) {
-       return RetrofitWebService.getService().getWeatherByLocation(longitude,latitude);
+       return retrofitService.getWeatherByLocation(longitude,latitude);
     }
 }

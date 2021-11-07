@@ -43,14 +43,11 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
 
     public void listenToViewModelValues(){
         nameViewModel.getErrorMessage().observe(this, s -> {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    if (s instanceof String) {
-                        Toast.makeText(GetWeatherByNameActivity.this, s.toString(), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(GetWeatherByNameActivity.this, getString(Integer.valueOf(s.toString())), Toast.LENGTH_LONG).show();
-                    }
+            new Handler().post(() -> {
+                if (s instanceof String) {
+                    Toast.makeText(GetWeatherByNameActivity.this, s.toString(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(GetWeatherByNameActivity.this, getString(Integer.valueOf(s.toString())), Toast.LENGTH_LONG).show();
                 }
             });
         });
@@ -60,7 +57,6 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
             binding.WeatherByNameRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(weatherByNameResponses));
         });
     }
-
 
     public void searchClickHandler(String searchValue){
         binding.WeatherByNameLoadingProgressBar.setVisibility(View.VISIBLE);

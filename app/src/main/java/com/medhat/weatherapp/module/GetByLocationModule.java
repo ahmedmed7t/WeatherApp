@@ -1,5 +1,6 @@
 package com.medhat.weatherapp.module;
 
+import com.medhat.weatherapp.data.RetrofitService;
 import com.medhat.weatherapp.data.api.getByLocation.GetByLocationHelper;
 import com.medhat.weatherapp.data.api.getByLocation.GetByLocationHelperImp;
 
@@ -16,7 +17,7 @@ import dagger.hilt.android.scopes.ViewModelScoped;
 public class GetByLocationModule {
 
     @Provides
-    public static GetByLocationHelper getByLocationHelper(){
-        return new GetByLocationHelperImp() ;
+    public static GetByLocationHelper getByLocationHelper(RetrofitService retrofitService){
+        return new GetByLocationHelperImp(retrofitService) ;
     }
 }

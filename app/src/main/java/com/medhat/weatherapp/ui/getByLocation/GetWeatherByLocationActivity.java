@@ -34,7 +34,6 @@ public class GetWeatherByLocationActivity extends AppCompatActivity implements L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityGetWeatherByLocationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

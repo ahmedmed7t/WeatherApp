@@ -45,11 +45,7 @@ public class LocationWeatherRecyclerAdapter extends RecyclerView.Adapter<Locatio
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        if(position == weatherInfoArrayList.size()-1){
-            holder.binding.setLineVisible(false);
-        }else {
-            holder.binding.setLineVisible(true);
-        }
+        holder.binding.setLineVisible(position != weatherInfoArrayList.size() - 1);
         holder.binding.setItem(weatherInfoArrayList.get(position));
     }
 

@@ -1,10 +1,17 @@
-package com.medhat.weatherapp.data;
+package com.medhat.weatherapp.module;
 
+import com.medhat.weatherapp.data.RetrofitService;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -13,21 +20,23 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@Module
+@InstallIn(SingletonComponent.class)
+public class AppModule {
 
-public class RetrofitWebService {
-    private static final String TAG = RetrofitWebService.class.getSimpleName();
     private static final Map<String, RetrofitService> mServices = new HashMap<>();
     private static final String url = "https://api.openweathermap.org";
-    private final String api_key = "72067ca3a1b1091a10db6a82ddd6b8a0";
+    private static final String api_key = "72067ca3a1b1091a10db6a82ddd6b8a0";
 
-    private RetrofitWebService() {
+    @Provides
+    @Singleton
+    public static RetrofitService getByLocationHelper(){
         Interceptor interceptor1 = chain -> {
             Request request = chain.request();
             HttpUrl url = request.url().newBuilder().addQueryParameter("appid",api_key).build();
             request = request.newBuilder().url(url).build();
             return chain.proceed(request);
         };
-
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .writeTimeout(10, TimeUnit.MINUTES)
@@ -41,12 +50,7 @@ public class RetrofitWebService {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         mServices.put(url, retrofit.create(RetrofitService.class));
-    }
 
-    public static RetrofitService getService() {
-        if (null == mServices.get(url)) {
-            new RetrofitWebService();
-        }
         return mServices.get(url);
     }
 }
