@@ -1,14 +1,15 @@
 <resources>
-    <string name="app_name">Weather App</string>
+    <string name="app_name" >Weather App</string>
     <string name="minimum_number_of_cities_should_be_3">minimum number of cities should be 3</string>
     <string name="maximum_number_of_cities_should_be_7">maximum number of cities should be 7</string>
-    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_base" translatable="false">BaseActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
     <string name="get_weather_by_city_name">Get Weather By City Name</string>
     <string name="get_weather_by_location">Get Weather By Location</string>
+    <string name="language">اللغة</string>
 
 </resources>

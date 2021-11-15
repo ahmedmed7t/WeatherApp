@@ -16,13 +16,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherInfo;
+import com.medhat.weatherapp.data.models.nameWeatherModels.IWeatherItemHandler;
 import com.medhat.weatherapp.databinding.ActivityGetWeatherByLocationBinding;
 import com.medhat.weatherapp.ui.base.BaseActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class GetWeatherByLocationActivity extends BaseActivity<WeatherByLocationViewModel> implements LocationListener {
+public class GetWeatherByLocationActivity extends BaseActivity<WeatherByLocationViewModel>
+        implements LocationListener, IWeatherItemHandler {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -71,7 +74,7 @@ public class GetWeatherByLocationActivity extends BaseActivity<WeatherByLocation
 
     public void listenToViewModelValues(){
         viewModel.getWeatherData().observe(this, weatherInfo -> {
-            binding.WeatherByLocationRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(weatherInfo));
+            binding.WeatherByLocationRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(weatherInfo, this::weatherItemClicked));
             binding.WeatherByLocationProgressBar.setVisibility(View.GONE);
         });
 
@@ -96,5 +99,10 @@ public class GetWeatherByLocationActivity extends BaseActivity<WeatherByLocation
     protected void onDestroy() {
         super.onDestroy();
         locationManager.removeUpdates(this);
+    }
+
+    @Override
+    public void weatherItemClicked(WeatherInfo weatherInfo) {
+        viewModel.saveWeatherRecord(weatherInfo);
     }
 }

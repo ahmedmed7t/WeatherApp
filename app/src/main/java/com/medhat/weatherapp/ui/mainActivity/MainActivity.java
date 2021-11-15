@@ -11,6 +11,8 @@ import com.medhat.weatherapp.ui.base.BaseActivity;
 import com.medhat.weatherapp.ui.getByLocation.GetWeatherByLocationActivity;
 import com.medhat.weatherapp.ui.getByName.GetWeatherByNameActivity;
 
+import io.realm.Realm;
+
 public class MainActivity extends BaseActivity implements MainHandler {
 
     private ActivityMainBinding binding;
@@ -18,7 +20,7 @@ public class MainActivity extends BaseActivity implements MainHandler {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Realm.init(this);
         // For View Binding
 //        binding = ActivityMainBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
@@ -45,6 +47,6 @@ public class MainActivity extends BaseActivity implements MainHandler {
 
     @Override
     public void changeLanguageClicked() {
-        changeLanguage(ARABIC_LANGUAGE);
+        changeLanguage();
     }
 }

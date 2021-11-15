@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.medhat.weatherapp.R;
+import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherInfo;
+import com.medhat.weatherapp.data.models.nameWeatherModels.IWeatherItemHandler;
 import com.medhat.weatherapp.databinding.ActivityGetWeatherByNameBinding;
 import com.medhat.weatherapp.ui.base.BaseActivity;
 import com.medhat.weatherapp.ui.getByLocation.LocationWeatherRecyclerAdapter;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class GetWeatherByNameActivity extends BaseActivity<WeatherByNameViewModel> {
+public class GetWeatherByNameActivity extends BaseActivity<WeatherByNameViewModel> implements IWeatherItemHandler {
 
     ActivityGetWeatherByNameBinding binding;
 
@@ -55,13 +57,18 @@ public class GetWeatherByNameActivity extends BaseActivity<WeatherByNameViewMode
 
         viewModel.getLiveResponse().observe(this, weatherByNameResponses -> {
             binding.WeatherByNameLoadingProgressBar.setVisibility(View.GONE);
-            binding.WeatherByNameRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(weatherByNameResponses));
+            binding.WeatherByNameRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(weatherByNameResponses, this::weatherItemClicked));
         });
     }
 
     public void searchClickHandler(String searchValue){
         binding.WeatherByNameLoadingProgressBar.setVisibility(View.VISIBLE);
         viewModel.validateSearchValue(searchValue);
-        binding.WeatherByNameRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(new ArrayList<>()));
+        binding.WeatherByNameRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(new ArrayList<>(), this::weatherItemClicked));
+    }
+
+    @Override
+    public void weatherItemClicked(WeatherInfo weatherInfo) {
+        viewModel.saveWeatherItem(weatherInfo);
     }
 }

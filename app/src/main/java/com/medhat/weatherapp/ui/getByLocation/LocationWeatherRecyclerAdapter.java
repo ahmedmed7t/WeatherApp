@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.medhat.weatherapp.R;
 import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherInfo;
+import com.medhat.weatherapp.data.models.nameWeatherModels.IWeatherItemHandler;
 import com.medhat.weatherapp.databinding.WeatherByLocationItemBinding;
 
 import java.util.ArrayList;
@@ -17,9 +18,12 @@ import java.util.ArrayList;
 public class LocationWeatherRecyclerAdapter extends RecyclerView.Adapter<LocationWeatherRecyclerAdapter.viewHolder> {
 
     private ArrayList<WeatherInfo> weatherInfoArrayList;
+    private IWeatherItemHandler weatherItemHandler;
 
-    public LocationWeatherRecyclerAdapter(ArrayList<WeatherInfo> weatherInfoArrayList) {
+    public LocationWeatherRecyclerAdapter(ArrayList<WeatherInfo> weatherInfoArrayList,
+                                          IWeatherItemHandler weatherItemHandler) {
         this.weatherInfoArrayList = weatherInfoArrayList;
+        this.weatherItemHandler = weatherItemHandler;
     }
 
     class viewHolder extends RecyclerView.ViewHolder{
@@ -47,6 +51,9 @@ public class LocationWeatherRecyclerAdapter extends RecyclerView.Adapter<Locatio
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         holder.binding.setLineVisible(position != weatherInfoArrayList.size() - 1);
         holder.binding.setItem(weatherInfoArrayList.get(position));
+        holder.binding.WeatherByLocationDownloadImageView.setOnClickListener( v -> {
+            weatherItemHandler.weatherItemClicked(weatherInfoArrayList.get(position));
+        });
     }
 
     @Override

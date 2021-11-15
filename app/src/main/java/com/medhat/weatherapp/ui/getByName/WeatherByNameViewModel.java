@@ -1,12 +1,16 @@
 package com.medhat.weatherapp.ui.getByName;
 
 import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
 import com.medhat.weatherapp.R;
+import com.medhat.weatherapp.data.localDB.localModels.Weather;
 import com.medhat.weatherapp.data.models.ErrorResponse;
 import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherInfo;
 import com.medhat.weatherapp.data.models.nameWeatherModels.WeatherByNameResponse;
@@ -21,7 +25,10 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 @HiltViewModel
@@ -38,6 +45,18 @@ public class WeatherByNameViewModel extends BaseViewModel {
     @Inject
     public WeatherByNameViewModel(GetByNameRepo getByNameRepo) {
         this.getByNameRepo = getByNameRepo;
+    }
+
+    public void saveWeatherItem(WeatherInfo weatherInfo) {
+        getByNameRepo.saveWeatherRecord(
+                new Weather(
+                        weatherInfo.getMinTemp(),
+                        weatherInfo.getMaxTemp(),
+                        weatherInfo.getWeatherDescription(),
+                        weatherInfo.getWindSpeed(),
+                        weatherInfo.getDateTime()
+                )
+        );
     }
 
     @SuppressLint("CheckResult")

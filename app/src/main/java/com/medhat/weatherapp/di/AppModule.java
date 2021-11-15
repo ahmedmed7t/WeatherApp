@@ -12,6 +12,8 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -53,5 +55,18 @@ public class AppModule {
         mServices.put(url, retrofit.create(RetrofitService.class));
 
         return mServices.get(url);
+    }
+
+    @Provides
+    @Singleton
+    public Realm getRealmDB(){
+        String realmName = "Weather App";
+        RealmConfiguration config = new RealmConfiguration
+                .Builder()
+                .name(realmName)
+                .allowWritesOnUiThread(true)
+                .allowQueriesOnUiThread(true)
+                .build();
+        return Realm.getInstance(config);
     }
 }

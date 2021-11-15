@@ -15,12 +15,13 @@ import com.medhat.weatherapp.ui.mainActivity.MainActivity;
 
 import java.util.Locale;
 
-import dagger.hilt.android.AndroidEntryPoint;
 
 public class BaseActivity <T extends BaseViewModel> extends AppCompatActivity {
 
     protected final String ARABIC_LANGUAGE = "ar";
     protected final String ENGLISH_LANGUAGE = "en";
+
+    private String selectedLang = ENGLISH_LANGUAGE;
 
     protected T viewModel;
 
@@ -30,12 +31,14 @@ public class BaseActivity <T extends BaseViewModel> extends AppCompatActivity {
         setContentView(R.layout.activity_base);
     }
 
-    protected void changeLanguage(String language) {
+    protected void changeLanguage() {
+        selectedLang = (selectedLang.equals(ENGLISH_LANGUAGE)) ? ARABIC_LANGUAGE : ENGLISH_LANGUAGE;
+
         if (Build.VERSION.SDK_INT <= 25) {
-            updateResource(this, language);
-            updateResourcesLegacy(this, language);
+            updateResource(this, selectedLang);
+            updateResourcesLegacy(this, selectedLang);
         } else {
-            setLocaleHighApi(language);
+            setLocaleHighApi(selectedLang);
         }
 
         restart();
@@ -82,12 +85,8 @@ public class BaseActivity <T extends BaseViewModel> extends AppCompatActivity {
     }
 
     private void restart(){
-//        Intent intent = getIntent();
-//        finish();
-//        startActivity(intent);
         Intent intent = new Intent(this, MainActivity.class);
         finish();
         startActivity(intent);
-//        this.finishAffinity();
     }
 }

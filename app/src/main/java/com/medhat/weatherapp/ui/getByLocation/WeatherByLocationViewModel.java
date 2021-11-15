@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
+import com.medhat.weatherapp.data.localDB.localModels.Weather;
 import com.medhat.weatherapp.data.models.ErrorResponse;
 import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherByLocationResponse;
 import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherInfo;
@@ -75,6 +76,18 @@ public class WeatherByLocationViewModel extends BaseViewModel {
                     ));
         }
         weatherData.setValue(weatherResponse);
+    }
+
+    public void saveWeatherRecord(WeatherInfo weatherInfo){
+        getByLocationRepo.saveWeatherRecord(
+                new Weather(
+                        weatherInfo.getMinTemp(),
+                        weatherInfo.getMaxTemp(),
+                        weatherInfo.getWeatherDescription(),
+                        weatherInfo.getWindSpeed(),
+                        weatherInfo.getDateTime()
+                )
+        );
     }
 
     public MutableLiveData<ArrayList<WeatherInfo>> getWeatherData() {
