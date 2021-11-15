@@ -11,6 +11,7 @@ import com.medhat.weatherapp.data.models.ErrorResponse;
 import com.medhat.weatherapp.data.models.locationWeatherModels.WeatherInfo;
 import com.medhat.weatherapp.data.models.nameWeatherModels.WeatherByNameResponse;
 import com.medhat.weatherapp.data.repositories.GetByNameRepo;
+import com.medhat.weatherapp.ui.base.BaseViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +25,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @HiltViewModel
-public class WeatherByNameViewModel extends ViewModel {
+public class WeatherByNameViewModel extends BaseViewModel {
 
     private GetByNameRepo getByNameRepo;
 

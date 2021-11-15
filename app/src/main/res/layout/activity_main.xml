@@ -5,13 +5,28 @@
 
     <data>
         <variable
-            name="activity"
-            type="com.medhat.weatherapp.ui.MainActivity" />
+            name="handler"
+            type="com.medhat.weatherapp.ui.mainActivity.MainHandler" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.mainActivity.MainActivity">
+
+        <TextView
+            android:id="@+id/MainActivity_Language_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="Language"
+            android:textSize="18sp"
+            android:padding="25dp"
+            android:onClick="@{() -> handler.changeLanguageClicked()}"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,14 +42,14 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp"
                 android:backgroundTint="@color/purple_500"
-                app:cardCornerRadius="5dp"
-                android:onClick="@{() -> activity.gotoNamePage()}">
+                android:onClick="@{() -> handler.gotoNamePage()}"
+                app:cardCornerRadius="5dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Get Weather By City Name"
+                    android:text="@string/get_weather_by_city_name"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </androidx.cardview.widget.CardView>
@@ -47,14 +62,14 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="50dp"
                 android:backgroundTint="@color/purple_500"
-                app:cardCornerRadius="5dp"
-                android:onClick="@{() -> activity.gotoLocationPage()}">
+                android:onClick="@{() -> handler.gotoLocationPage()}"
+                app:cardCornerRadius="5dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Get Weather By Location"
+                    android:text="@string/get_weather_by_location"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </androidx.cardview.widget.CardView>
@@ -63,5 +78,4 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

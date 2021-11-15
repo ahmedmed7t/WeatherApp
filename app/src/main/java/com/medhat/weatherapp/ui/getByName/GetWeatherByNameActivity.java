@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.medhat.weatherapp.R;
 import com.medhat.weatherapp.databinding.ActivityGetWeatherByNameBinding;
+import com.medhat.weatherapp.ui.base.BaseActivity;
 import com.medhat.weatherapp.ui.getByLocation.LocationWeatherRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -19,9 +20,8 @@ import java.util.ArrayList;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class GetWeatherByNameActivity extends AppCompatActivity {
+public class GetWeatherByNameActivity extends BaseActivity<WeatherByNameViewModel> {
 
-    WeatherByNameViewModel nameViewModel ;
     ActivityGetWeatherByNameBinding binding;
 
     @Override
@@ -29,7 +29,8 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_get_weather_by_name);
         binding.setActivity(this);
-        nameViewModel = new ViewModelProvider(this).get(WeatherByNameViewModel.class);
+
+        viewModel = new ViewModelProvider(this).get(WeatherByNameViewModel.class);
 
         initViews();
         listenToViewModelValues();
@@ -42,7 +43,7 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
     }
 
     public void listenToViewModelValues(){
-        nameViewModel.getErrorMessage().observe(this, s -> {
+        viewModel.getErrorMessage().observe(this, s -> {
             new Handler().post(() -> {
                 if (s instanceof String) {
                     Toast.makeText(GetWeatherByNameActivity.this, s.toString(), Toast.LENGTH_LONG).show();
@@ -52,7 +53,7 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
             });
         });
 
-        nameViewModel.getLiveResponse().observe(this, weatherByNameResponses -> {
+        viewModel.getLiveResponse().observe(this, weatherByNameResponses -> {
             binding.WeatherByNameLoadingProgressBar.setVisibility(View.GONE);
             binding.WeatherByNameRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(weatherByNameResponses));
         });
@@ -60,7 +61,7 @@ public class GetWeatherByNameActivity extends AppCompatActivity {
 
     public void searchClickHandler(String searchValue){
         binding.WeatherByNameLoadingProgressBar.setVisibility(View.VISIBLE);
-        nameViewModel.validateSearchValue(searchValue);
+        viewModel.validateSearchValue(searchValue);
         binding.WeatherByNameRecyclerView.setAdapter(new LocationWeatherRecyclerAdapter(new ArrayList<>()));
     }
 }

@@ -17,15 +17,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.medhat.weatherapp.databinding.ActivityGetWeatherByLocationBinding;
+import com.medhat.weatherapp.ui.base.BaseActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class GetWeatherByLocationActivity extends AppCompatActivity implements LocationListener {
+public class GetWeatherByLocationActivity extends BaseActivity<WeatherByLocationViewModel> implements LocationListener {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
-    private WeatherByLocationViewModel viewModel ;
     private ActivityGetWeatherByLocationBinding binding;
 
     private LocationManager locationManager;
@@ -90,5 +90,11 @@ public class GetWeatherByLocationActivity extends AppCompatActivity implements L
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationManager.removeUpdates(this);
     }
 }

@@ -1,6 +1,5 @@
-package com.medhat.weatherapp.ui;
+package com.medhat.weatherapp.ui.mainActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
@@ -8,10 +7,11 @@ import android.os.Bundle;
 
 import com.medhat.weatherapp.R;
 import com.medhat.weatherapp.databinding.ActivityMainBinding;
+import com.medhat.weatherapp.ui.base.BaseActivity;
 import com.medhat.weatherapp.ui.getByLocation.GetWeatherByLocationActivity;
 import com.medhat.weatherapp.ui.getByName.GetWeatherByNameActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements MainHandler {
 
     private ActivityMainBinding binding;
 
@@ -28,17 +28,23 @@ public class MainActivity extends AppCompatActivity {
 
         // For Data Binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setActivity(this);
+        binding.setHandler(this);
     }
 
-    public void gotoLocationPage(){
+    @Override
+    public void gotoLocationPage() {
         Intent intent = new Intent(MainActivity.this, GetWeatherByLocationActivity.class);
         startActivity(intent);
     }
 
-    public void gotoNamePage(){
+    @Override
+    public void gotoNamePage() {
         Intent intent = new Intent(MainActivity.this, GetWeatherByNameActivity.class);
         startActivity(intent);
     }
 
+    @Override
+    public void changeLanguageClicked() {
+        changeLanguage(ARABIC_LANGUAGE);
+    }
 }

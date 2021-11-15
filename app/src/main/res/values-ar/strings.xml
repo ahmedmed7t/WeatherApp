@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="minimum_number_of_cities_should_be_3">أقل عدد للمدن هو 3</string>
+    <string name="maximum_number_of_cities_should_be_7">أكبر عدد للمدن هو 7</string>
+    <string name="get_weather_by_city_name">الطقس بواسطة اسم المدن</string>
+    <string name="get_weather_by_location">الطقس بواسطة الموقع</string>
+</resources>

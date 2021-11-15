@@ -1,4 +1,4 @@
-package com.medhat.weatherapp.module;
+package com.medhat.weatherapp.di;
 
 import com.medhat.weatherapp.data.RetrofitService;
 
@@ -24,13 +24,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @InstallIn(SingletonComponent.class)
 public class AppModule {
 
-    private static final Map<String, RetrofitService> mServices = new HashMap<>();
-    private static final String url = "https://api.openweathermap.org";
-    private static final String api_key = "72067ca3a1b1091a10db6a82ddd6b8a0";
+    private final Map<String, RetrofitService> mServices = new HashMap<>();
+    private final String url = "https://api.openweathermap.org";
+    private final String api_key = "72067ca3a1b1091a10db6a82ddd6b8a0";
 
     @Provides
     @Singleton
-    public static RetrofitService getByLocationHelper(){
+    public RetrofitService getByLocationHelper(){
         Interceptor interceptor1 = chain -> {
             Request request = chain.request();
             HttpUrl url = request.url().newBuilder().addQueryParameter("appid",api_key).build();
@@ -49,6 +49,7 @@ public class AppModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+
         mServices.put(url, retrofit.create(RetrofitService.class));
 
         return mServices.get(url);
