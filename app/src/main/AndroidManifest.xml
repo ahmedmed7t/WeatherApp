@@ -1,28 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.medhat.weatherapp">
-
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:name=".app"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherApp">
         <activity
-            android:name=".ui.getByName.GetWeatherByNameActivity"
+            android:name=".cameraScreen.ImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".cameraScreen.CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".savedWeather.presentation.ui.SavedWeatherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".weatherByName.presentation.view.GetWeatherByNameActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.getByLocation.GetWeatherByLocationActivity"
+            android:name=".weatherByLocation.presentation.view.GetWeatherByLocationActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.mainActivity.MainActivity"
+            android:name=".main.presentation.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

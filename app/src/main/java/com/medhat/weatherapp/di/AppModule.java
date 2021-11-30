@@ -1,6 +1,13 @@
 package com.medhat.weatherapp.di;
 
-import com.medhat.weatherapp.data.RetrofitService;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.room.Room;
+
+import com.medhat.weatherapp.base.retrofit.RetrofitService;
+import com.medhat.weatherapp.base.room.AppLocalDB;
+import com.medhat.weatherapp.base.room.WeatherDao;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +18,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
+import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -29,6 +37,7 @@ public class AppModule {
     private final Map<String, RetrofitService> mServices = new HashMap<>();
     private final String url = "https://api.openweathermap.org";
     private final String api_key = "72067ca3a1b1091a10db6a82ddd6b8a0";
+    private final int MODE_PRIVATE = 0;
 
     @Provides
     @Singleton
@@ -64,9 +73,21 @@ public class AppModule {
         RealmConfiguration config = new RealmConfiguration
                 .Builder()
                 .name(realmName)
-                .allowWritesOnUiThread(true)
-                .allowQueriesOnUiThread(true)
                 .build();
         return Realm.getInstance(config);
+    }
+
+    @Provides
+    @Singleton
+    public SharedPreferences getSharedPreferences(@ApplicationContext Context context){
+        return context.getSharedPreferences("UserData", MODE_PRIVATE);
+    }
+
+    @Provides
+    @Singleton
+    public WeatherDao getLocalDB(@ApplicationContext Context context){
+        AppLocalDB db = Room.databaseBuilder(context,
+                AppLocalDB.class, "Local-Weather-App").build();
+        return db.weatherDao();
     }
 }

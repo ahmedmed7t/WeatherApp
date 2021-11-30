@@ -6,12 +6,12 @@
     <data>
         <variable
             name="activity"
-            type="com.medhat.weatherapp.ui.getByName.GetWeatherByNameActivity" />
+            type="com.medhat.weatherapp.weatherByName.presentation.view.GetWeatherByNameActivity" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.getByName.GetWeatherByNameActivity">
+        tools:context=".weatherByName.presentation.view.GetWeatherByNameActivity">
 
 
         <EditText

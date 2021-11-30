@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" >Weather App</string>
+    <string name="app_name">Weather App</string>
     <string name="minimum_number_of_cities_should_be_3">minimum number of cities should be 3</string>
     <string name="maximum_number_of_cities_should_be_7">maximum number of cities should be 7</string>
     <string name="title_activity_base" translatable="false">BaseActivity</string>

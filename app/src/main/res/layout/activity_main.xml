@@ -6,13 +6,13 @@
     <data>
         <variable
             name="handler"
-            type="com.medhat.weatherapp.ui.mainActivity.MainHandler" />
+            type="com.medhat.weatherapp.main.domain.handlers.MainHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.mainActivity.MainActivity">
+        tools:context=".main.presentation.view.MainActivity">
 
         <TextView
             android:id="@+id/MainActivity_Language_TextView"
@@ -74,6 +74,25 @@
                     android:textSize="15sp" />
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/Landing_Page_Get_Saved_CardView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="50dp"
+                android:backgroundTint="@color/purple_500"
+                android:onClick="@{() -> handler.gotoSavedPage()}"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/get_weather_by_location"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
