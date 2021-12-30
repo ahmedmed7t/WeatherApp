@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".otp.OtpActivity">
+
+    <com.kevinschildhorn.otpview.OTPView
+        android:id="@+id/otp_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="textCapCharacters|textNoSuggestions"
+        android:autofillHints=""
+        android:importantForAutofill="no"
+        app:otp_itemCount="6"
+        app:otp_showCursor="true"
+        app:otp_cursorColor="@color/colorPrimary"
+        app:otp_textSize="24sp"
+        app:otp_highlightedTextSize="24sp"
+        app:otp_filledTextSize="24sp"
+        app:otp_itemWidth="@dimen/_40sdp"
+        app:otp_itemHeight="@dimen/_40sdp"
+        app:otp_marginBetween="@dimen/_8sdp"
+        app:otp_textColor="@color/black"
+        app:otp_backgroundImage="@drawable/empty_pin_entry_background"
+        app:otp_filledBackgroundImage="@drawable/pin_entry_background"
+        app:otp_highlightedBackgroundImage="@drawable/pin_entry_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

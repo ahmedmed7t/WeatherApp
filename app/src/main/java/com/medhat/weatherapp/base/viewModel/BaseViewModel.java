@@ -9,6 +9,7 @@ import javax.inject.Inject;
 public class BaseViewModel<T extends BaseRepository> extends ViewModel {
 
     protected T repository;
+    private BaseRepository baseRepository = new BaseRepository();
 
     @Inject
     public BaseViewModel() {

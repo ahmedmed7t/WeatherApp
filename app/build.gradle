@@ -83,5 +83,13 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha31"
     // If you want to additionally use the CameraX Extensions library
     implementation "androidx.camera:camera-extensions:1.0.0-alpha31"
+    implementation 'com.github.KevinSchildhorn:OTPView:0.2.2'
+
+    def intuitVersion = '1.0.6'
+    implementation "com.intuit.sdp:sdp-android:$intuitVersion"
+    implementation "com.intuit.ssp:ssp-android:$intuitVersion"
+
+    implementation 'com.google.android.gms:play-services-auth:20.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:18.0.0'
 }
 

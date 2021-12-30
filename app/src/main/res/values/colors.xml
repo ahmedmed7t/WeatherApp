@@ -10,4 +10,9 @@
 
     <color name="black_de_transparent">#de000000</color>
     <color name="black_61_transparent">#c1000000</color>
+
+    <color name="colorPrimary">#0080fa</color>
+
+    <color name="fade_blue">#f2f8fd</color>
+    <color name="hint_blue">#9bcaf7</color>
 </resources>

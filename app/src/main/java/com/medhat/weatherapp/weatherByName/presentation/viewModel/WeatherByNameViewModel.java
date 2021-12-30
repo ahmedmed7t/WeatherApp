@@ -22,11 +22,12 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 @HiltViewModel
 public class WeatherByNameViewModel extends BaseViewModel<GetByNameRepo> {
-
 
     private MutableLiveData<Object> errorMessage = new MutableLiveData<>();
     private MutableLiveData<ArrayList<WeatherInfo>> liveResponseData = new MutableLiveData<>();
@@ -59,20 +60,20 @@ public class WeatherByNameViewModel extends BaseViewModel<GetByNameRepo> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(weatherByNameResponse -> {
-                                if (weatherByNameResponse.isSuccessful()) {
-                                    weatherInfos.add(getWeatherInfo(weatherByNameResponse.body()));
-                                } else {
-                                    try {
-                                        JSONObject jObjError = new JSONObject(weatherByNameResponse.errorBody().string());
-                                        ErrorResponse errorResponse = new Gson().fromJson(String.valueOf(jObjError), ErrorResponse.class);
-                                        errorMessage.setValue(item + " " + errorResponse.getMessage());
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                requestCount--;
-                                validateResponse();
-                            }, throwable -> {
+                        if (weatherByNameResponse.isSuccessful()) {
+                            weatherInfos.add(WeatherByNameViewModel.this.getWeatherInfo(weatherByNameResponse.body()));
+                        } else {
+                            try {
+                                JSONObject jObjError = new JSONObject(weatherByNameResponse.errorBody().string());
+                                ErrorResponse errorResponse = new Gson().fromJson(String.valueOf(jObjError), ErrorResponse.class);
+                                errorMessage.setValue(item + " " + errorResponse.getMessage());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        requestCount--;
+                        WeatherByNameViewModel.this.validateResponse();
+                    }, throwable -> {
                                 requestCount--;
                                 validateResponse();
                             }

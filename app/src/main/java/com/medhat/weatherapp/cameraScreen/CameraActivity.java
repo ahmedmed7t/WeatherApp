@@ -1,6 +1,7 @@
 package com.medhat.weatherapp.cameraScreen;
 
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
@@ -14,10 +15,10 @@ import androidx.lifecycle.LifecycleOwner;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.medhat.weatherapp.R;
 import com.medhat.weatherapp.databinding.ActivityCameraBinding;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.ExecutionException;
@@ -35,7 +37,7 @@ import java.util.concurrent.ExecutionException;
 public class CameraActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_PERMISSIONS = 10;
-    private static final String[] REQUIRED_PERMISSIONS = { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE };
+    private static final String[] REQUIRED_PERMISSIONS = { Manifest.permission.CAMERA};
     private static final String TAG = "sss";
 
     private ListenableFuture<ProcessCameraProvider> mCameraProviderFuture;
@@ -120,7 +122,6 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private boolean allPermissionsGranted(){
-
         for(String permission : REQUIRED_PERMISSIONS){
             if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
                 return false;
@@ -137,7 +138,7 @@ public class CameraActivity extends AppCompatActivity {
                 startCamera();
             } else {
                 Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show();
-                this.finish();
+                //this.finish();
             }
         }
     }
@@ -156,35 +157,94 @@ public class CameraActivity extends AppCompatActivity {
             camera.getCameraControl().enableTorch(true);
     }
 
+    public void updateProfilePicture(Bitmap bitmap) {
+        File sdDir = Environment.getExternalStorageDirectory();
+        String packageName = getPackageName();
+        File profile = new File(sdDir, "/Android/data/"+packageName+"/cache/ImageFile");
+        profile.mkdirs();
+
+        if (bitmap == null)
+            return;
+        File destination = new File((profile.getPath()));
+        if (destination.exists())
+            destination.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(destination);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            //Timber.e(e);
+            e.printStackTrace();
+        }
+        //getProfilePicture().setValue(getProfilePictureUri());
+    }
+
     public void saveBitmapImage(Bitmap bitmap) {
         OutputStream output;
-        // Find the SD Card path
-        File filepath = Environment.getExternalStorageDirectory();
+        File filepath = getCacheDir();
 
-        // Create a new folder in SD Card
-        File dir = new File(filepath.getAbsolutePath()
-                + "/WhatSappIMG/");
+        File dir = new File(filepath.getAbsolutePath());
         dir.mkdirs();
 
-        // Create a name for the saved image
-        File file = new File(dir, "Wallpaper.jpg" );
-
+        File file = new File(dir, "Wallpaper.jpg");
         try {
-
             output = new FileOutputStream(file);
-
-            // Compress into png format image from 0% - 100%
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, output);
             output.flush();
             output.close();
-
-        }
-
-        catch (Exception e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+    public void writeFileOnInternalStorage(Bitmap bitmap){
+        File dir = new File(this.getFilesDir(), "mydir");
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+        OutputStream output;
+
+        try {
+            File gpxfile = new File(dir, "IDImage.jpg");
+            output = new FileOutputStream(gpxfile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, output);
+            output.flush();
+            output.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+//    public void saveBitmapImage(Bitmap bitmap) {
+//        OutputStream output;
+//        // Find the SD Card path
+//        File filepath = Environment.getExternalStorageDirectory();
+//
+//        // Create a new folder in SD Card
+//        File dir = new File(filepath.getAbsolutePath());
+//        dir.mkdirs();
+//
+//        // Create a name for the saved image
+//        File file = new File(dir, "Wallpaper.jpg" );
+//
+//        try {
+//
+//            output = new FileOutputStream(file);
+//
+//            // Compress into png format image from 0% - 100%
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, output);
+//            output.flush();
+//            output.close();
+//
+//        }
+//
+//        catch (Exception e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
 
 
     public void calculateCardDimentions(){

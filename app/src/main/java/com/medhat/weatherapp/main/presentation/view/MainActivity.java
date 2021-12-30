@@ -4,7 +4,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.medhat.weatherapp.R;
@@ -12,14 +11,11 @@ import com.medhat.weatherapp.base.constants.Constants;
 import com.medhat.weatherapp.cameraScreen.CameraActivity;
 import com.medhat.weatherapp.databinding.ActivityMainBinding;
 import com.medhat.weatherapp.base.view.BaseActivity;
-import com.medhat.weatherapp.main.data.repositories.MainRepository;
 import com.medhat.weatherapp.main.domain.handlers.MainHandler;
 import com.medhat.weatherapp.main.presentation.viewModel.MainViewModel;
+import com.medhat.weatherapp.otp.OtpActivity;
 import com.medhat.weatherapp.weatherByLocation.presentation.view.GetWeatherByLocationActivity;
 import com.medhat.weatherapp.weatherByName.presentation.view.GetWeatherByNameActivity;
-import com.medhat.weatherapp.savedWeather.presentation.ui.SavedWeatherActivity;
-
-import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.realm.Realm;
@@ -50,7 +46,7 @@ public class MainActivity extends BaseActivity<MainViewModel> implements MainHan
 
     @Override
     public void gotoLocationPage() {
-        Intent intent = new Intent(MainActivity.this, GetWeatherByLocationActivity.class);
+        Intent intent = new Intent(MainActivity.this, OtpActivity.class);
         startActivity(intent);
     }
 
